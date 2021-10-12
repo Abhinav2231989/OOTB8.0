@@ -12,9 +12,9 @@ class SampleBulkInvoiceValidationPlugin implements IBulkInvoiceValidationPlugin 
     // As a convenience for testing, we'll generate two validation alerts if the InvoiceNumber contains the word "fail"
     if (bulkInvoice.InvoiceNumber != null  and  bulkInvoice.InvoiceNumber.containsIgnoreCase("fail")) {
       var alert1 = new BIValidationAlert()
-      // The BIValidationAlertType typelist is extendable. So be careful .ok .please check it     ol
+      // The BIValidationAlertType typelist is extendable.
       alert1.AlertType = BIValidationAlertType.TC_UNSPECIFIED
-      // This message will be displayed in the UI, and so should be meaningful to the user
+      // This message will be displayed in the UI, and so should be meaningful to the user. Done    dssdf
       alert1.AlertMsg = "1st Failure"
 
       var alert2 = new BIValidationAlert()
