@@ -4,7 +4,7 @@ uses gw.plugin.financials.IBulkInvoiceValidationPlugin
 
 @Export
 class SampleBulkInvoiceValidationPlugin implements IBulkInvoiceValidationPlugin {
-
+   //OO-1 : commit changes
   public override function validateBulkInvoice(bulkInvoice : BulkInvoice) : BIValidationAlert[] {
     // you have full access to the BulkInvoice's fields and the contained BulkInvoiceItems
     // i.e., var items   = bulkInvoice.InvoiceItems;
