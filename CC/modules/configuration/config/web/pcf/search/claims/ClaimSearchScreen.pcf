@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<PCF
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../../../../pcf.xsd">
+  <Screen
+    id="ClaimSearchScreen">
+    <Require
+      name="archiveSearchEnabled"
+      type="boolean"/>
+    <Variable
+      initialValue="&quot;ClaimSearchResultsLV&quot;"
+      name="PrintTargetLV"/>
+    <SearchPanel
+      criteriaName="criteriaWrapper"
+      maxSearchResults="0"
+      resultCachingEnabled="false"
+      resultsName="claimSearchResults"
+      search="mySearch(criteriaWrapper)//new gw.api.name.SearchNameOwner(criteriaWrapper.Criteria.NameCriteria).clearNonvisibleFields(); return criteriaWrapper.Criteria.performAdvancedSearchWithoutSummary()"
+      searchCriteria="gw.api.claim.ClaimUtil.getClaimSearchCriteria()"
+      searchOnEnter="true"
+      searchOnRefresh="false"
+      searchResultsType="search.ClaimSearchResults">
+      <PanelRef
+        def="ClaimSearchDV(criteriaWrapper.Criteria, archiveSearchEnabled)"/>
+      <PanelRef
+        def="ClaimSearchResultsLV(claimSearchResults , criteriaWrapper.Criteria)"
+        mode="criteriaWrapper.Criteria.ClaimSearchType.Code">
+        <TitleBar
+          appendListViewPaging="true"
+          title="displaykey.JSP.ClaimSearch.Search.Results"/>
+        <Toolbar>
+          <CheckedValuesToolbarButton
+            allCheckedRowsAction="AssignClaimsPopup.push(new claim.ClaimAssignmentPopup(CheckedValues.cast(ClaimSearchView)))"
+            id="ClaimSearchScreen_AssignButton"
+            iterator="ClaimSearchResultsLV.ClaimSearchResultsIterator"
+            label="displaykey.Web.ClaimSearch.Toolbar.Assign"
+            shortcut="G"
+            visible="!isArchived(criteriaWrapper.Criteria)"/>
+          <ToolbarDivider/>
+          <CheckedValuesToolbarButton
+            allCheckedRowsAction="ArchiveClaimRetrievePopup.push(new gw.api.claim.ClaimArchiveRestoreSet(CheckedValues))"
+            flags="all RetrievableClaim"
+            id="ClaimSearchScreen_RetrieveButton"
+            iterator="ClaimSearchResultsLV.ClaimSearchResultsIterator"
+            label="displaykey.Web.ClaimSearch.Toolbar.Retrieve"
+            shortcut="R"
+            visible="isArchived(criteriaWrapper.Criteria)"/>
+          <ToolbarDivider/>
+          <ToolbarButton
+            action="print.ListViewPrintOptionPopupAction.printListViewOnlyWithOptions(PrintTargetLV, displaykey.JSP.ClaimSearch.Search.Results, null)"
+            available="perm.User.printlistviews"
+            id="ClaimSearchScreen_PrintButton"
+            label="displaykey.Java.ListView.Print"
+            shortcut="N"/>
+        </Toolbar>
+      </PanelRef>
+    </SearchPanel>
+    <Code><![CDATA[function isArchived(csc : ClaimSearchCriteria) : boolean {
+      return csc.ClaimSearchType == ClaimSearchType.TC_ARCHIVED;
+      }
+      
+      
+function mySearch(criteriaWrapper: com.guidewire.cc.domain.claim.impl.ClaimSearchCriteriaWrapper) : search.ClaimSearchResults {
+  new gw.api.name.SearchNameOwner(criteriaWrapper.Criteria.NameCriteria).clearNonvisibleFields()
+  //new gw.api.name.SearchNameOwner(criteriaWrapper.Criteria.NameCriteriaOpt_Ext).clearNonvisibleFields(); 
+  //checkDateSearch(criteriaWrapper.Criteria); 
+  return criteriaWrapper.Criteria.performAdvancedSearch_Ext()
+}
+
+function checkDateSearch(sCrit: gw.cc.claim.entity.ClaimSearchCriteria ) {
+  if(sCrit.DateCriterionChoice.StartDate == null)   return
+  if(sCrit.DateCriterionChoice.EndDate == null)
+    sCrit.DateCriterionChoice.EndDate = sCrit.DateCriterionChoice.StartDate
+
+  sCrit.AssignedToGroup.IncludeSubGroups = true
+  if(sCrit.AssignedToGroup.AssignedToGroup != null) return
+
+  //Look for the Root Group (it has no Parent)
+  var grp = User.util.CurrentUser.AllGroups.first() as Group       //Get a Group from the user
+  while(grp.Parent != null){
+    if(grp.Parent == User.util.CurrentUser.RootGroup){           // We want the group below the Root Group
+      break
+    }
+    grp = grp.Parent               //Next Group up the chain
+  }
+  sCrit.AssignedToGroup.AssignedToGroup = grp
+}]]></Code>
+  </Screen>
+</PCF>

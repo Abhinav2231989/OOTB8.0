@@ -1,0 +1,32 @@
+#Ignore everything under root
+*
+!.gitignore
+#Except for these specific folders for BC
+!BC
+BC/*
+!BC/modules
+BC/modules/*
+!BC/modules/configuration/
+!BC/modules/configuration/**
+
+
+#Except for these specific folders for CC
+!CC
+CC/*
+!CC/modules
+CC/modules/*
+!CC/modules/configuration/
+!CC/modules/configuration/**
+
+
+
+
+#Except for these specific folders for PC
+!PC
+PC/*
+!PC/modules
+PC/modules/*
+!PC/modules/configuration/
+!PC/modules/configuration/**
+
+#Except for these specific folders for Portal
