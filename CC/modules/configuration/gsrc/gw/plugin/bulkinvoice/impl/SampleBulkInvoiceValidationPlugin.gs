@@ -14,7 +14,7 @@ class SampleBulkInvoiceValidationPlugin implements IBulkInvoiceValidationPlugin 
       var alert1 = new BIValidationAlert()
       // The BIValidationAlertType typelist is extendable.
       alert1.AlertType = BIValidationAlertType.TC_UNSPECIFIED
-      // This message will be displayed in the UI, and so should be meaningful to the user
+      // This message will be displayed in the UI, and so should be meaningful to the user. Done
       alert1.AlertMsg = "1st Failure"
 
       var alert2 = new BIValidationAlert()
