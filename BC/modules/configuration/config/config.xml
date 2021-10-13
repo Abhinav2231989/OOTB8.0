@@ -253,7 +253,7 @@
     <param name="PublicIDPrefix" value="bc"/>
 
     <!-- Enable internal debug tools page http://localhost:8080/app/InternalTools.do -->
-    <param name="EnableInternalDebugTools" value="false"/>
+    <param name="EnableInternalDebugTools" value="true"/>
 
     <!-- generate sample data using QA sample data method -->
     <param name="GosuSampleDataMethod" value="createBillingCenterQASampleData"/>
