@@ -544,7 +544,7 @@
 
   <!-- Enable internal debug tools page http://localhost:8080/app/InternalTools.do
    NOTE Only available when server is in development mode. -->
-  <param name="EnableInternalDebugTools" value="false"/>
+  <param name="EnableInternalDebugTools" value="true"/>
 
   <!--
     If an activity on the job is assigned to the current user, and the activity has been modified within
